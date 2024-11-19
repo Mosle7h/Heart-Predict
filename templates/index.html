@@ -1,65 +1,94 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Heart Disease Prediction</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
         }
 
         h1 {
             text-align: center;
+            background-color: #5d9cec;
+            color: white;
+            padding: 20px 0;
+            margin: 0;
         }
 
         form {
-            max-width: 500px;
-            margin: 0 auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: 30px auto;
+            padding: 20px;
         }
 
         label {
             display: block;
-            margin-top: 10px;
+            margin: 10px 0 5px;
+            font-weight: bold;
+            color: #333;
         }
 
         input[type="number"],
         select {
             width: 100%;
-            padding: 8px;
+            padding: 16px; /* Increased padding for better visibility */
+            margin: 10px 0;
             border: 1px solid #ccc;
             border-radius: 4px;
-            box-sizing: border-box;
-            margin-top: 5px;
+            font-size: 18px; /* Larger font size for better readability */
+            min-width: 300px; /* Minimum width to ensure visibility */
         }
 
         input[type="submit"] {
             width: 100%;
-            padding: 10px;
-            background-color: #4CAF50;
+            padding: 12px;
+            background-color: #5d9cec;
             color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            margin-top: 10px;
+            font-size: 16px;
         }
 
         input[type="submit"]:hover {
-            background-color: #45a049;
+            background-color: #497fcf;
         }
 
         .prediction-result {
             margin-top: 20px;
-            border: 1px solid #ccc;
             padding: 10px;
+            background-color: #e8f0fe;
+            border: 1px solid #ccc;
             border-radius: 4px;
-            background-color: #f9f9f9;
             text-align: center;
+        }
+
+        p {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        a {
+            color: #5d9cec;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
     <h1>Heart Disease Prediction</h1>
-    <form action="/predict" method="post">
+    <form id="prediction-form">
         <label for="age">Age:</label>
         <input type="number" id="age" name="age" min="18" max="150" step="1" value="18">
 
@@ -69,12 +98,11 @@
         <label for="cholesterol">Serum Cholesterol (mm/dl):</label>
         <input type="number" id="cholesterol" name="cholesterol" step="1" min="80" value="200">
 
-        <label for="MaxHR">Maximum Heart Rate Achieved in Exhaustion Test:</label>
+        <label for="MaxHR">Maximum Heart Rate Achieved:</label>
         <input type="number" id="MaxHR" name="MaxHR" step="1" min="50" value="140">
 
-        <label for="oldpeak">ST Depression Induced by Exercise Relative to Rest (mm):</label>
+        <label for="oldpeak">ST Depression (mm):</label>
         <input type="number" id="oldpeak" name="oldpeak" step="0.1" min="-2" max="2" value="-0.1">
-
 
         <label for="sex">Sex:</label>
         <select id="sex" name="sex">
@@ -82,7 +110,7 @@
             <option value="Male">Male</option>
         </select>
 
-        <label for="chest_pain">Does the Patient Experience Chest Pain?:</label>
+        <label for="chest_pain">Chest Pain Type:</label>
         <select id="chest_pain" name="chest_pain">
             <option value="No Chest Pain">No Chest Pain</option>
             <option value="Typical Angina Pain">Typical Angina Pain</option>
@@ -96,55 +124,53 @@
             <option value="Over 120">Over 120</option>
         </select>
 
-        <label for="resting_ECG">Resting Electrocardiogram Results:</label>
+        <label for="resting_ECG">Resting ECG Results:</label>
         <select id="resting_ECG" name="resting_ECG">
             <option value="Normal">Normal</option>
-            <option value="ST-T wave abnormality (T wave inversions and/or ST elevation or depression of > 0.05 mV)">ST-T wave abnormality (T wave inversions and/or ST elevation or depression of > 0.05 mV)</option>
-            <option value="Showing probable or definite left ventricular hypertrophy by Estes' criteria">Showing probable or definite left ventricular hypertrophy by Estes' criteria</option>
+            <option value="ST">ST</option>
+            <option value="LVH">LVH</option>
         </select>
 
-        <label for="ExerciseAngina">Does the Patient Experience Exercise-Induced Angina?:</label>
+        <label for="ExerciseAngina">Exercise-Induced Angina:</label>
         <select id="ExerciseAngina" name="ExerciseAngina">
             <option value="No">No</option>
             <option value="Yes">Yes</option>
         </select>
 
-        <label for="ST_Slope">ST Segment Slope during Exercise:</label>
+        <label for="ST_Slope">ST Segment Slope:</label>
         <select id="ST_Slope" name="ST_Slope">
             <option value="Sloping Upwards">Sloping Upwards</option>
             <option value="Flat">Flat</option>
             <option value="Sloping Downwards">Sloping Downwards</option>
         </select>
 
-        <label for="selected_model">Classification Model:</label>
+        <label for="selected_model">Select Model:</label>
         <select id="selected_model" name="selected_model">
-            <option value="Neural Network (Highest Accuracy and Sensitivity)">Neural Network (Highest Accuracy and Sensitivity)</option>
-            <option value="Random Forest Classifier (Highest Specificity)">Random Forest Classifier (Highest Specificity)</option>
+            <option value="Neural Network">Neural Network</option>
+            <option value="Random Forest">Random Forest</option>
         </select>
 
         <input type="submit" value="Predict">
     </form>
 
-
     <div class="prediction-result" id="prediction-result" style="display: none;"></div>
 
     <script>
-        // Add event listener to the form submission
-        document.querySelector("form").addEventListener("submit", function(event) {
-            event.preventDefault(); // Prevent form submission
-
-            // Fetch the prediction result from the server
-            fetch("/predict", {
+        document.getElementById("prediction-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+           fetch("/predict", {
                 method: "POST",
                 body: new FormData(event.target)
-            })
-            .then(response => response.text())
-            .then(result => {
-                // Display the prediction result below the Predict button
-                document.getElementById("prediction-result").innerHTML = result;
-                document.getElementById("prediction-result").style.display = "block";
-            });
-        });
+           })
+           .then(response => response.text())
+           .then(result => {
+                const resultDiv = document.getElementById("prediction-result");
+                resultDiv.innerHTML = result; 
+                resultDiv.style.display = "block";
+           })
+           .catch(error => console.error('Error:', error));
+       });
     </script>
 </body>
 </html>
