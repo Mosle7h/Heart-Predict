@@ -99,7 +99,7 @@ def logout():
     return redirect(url_for('login'))
 
 @app.route('/predict', methods=['POST', 'GET'])
-@login_required
+#@login_required
 def predict():
     if request.method == 'POST':
         try:
@@ -202,5 +202,9 @@ def predict():
 
     return render_template('predict.html')
 
-if __name__ == '__main__':
-    app.run(debug=True)
+#if __name__ == '__main__':
+    #app.run(debug=True)
+
+if __name__ == "__main__":
+    app.run(debug=True, use_reloader=True, extra_files=["templates", "static"])
+
